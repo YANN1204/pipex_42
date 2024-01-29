@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 08:35:16 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/26 12:27:40 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/29 10:47:42 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_pipex {
 	int				fd_infile;
 	int				fd_outfile;
 	int				error_init;
+	int				recup;
 }				t_pipex;
 
 int		ft_putchar(char c);

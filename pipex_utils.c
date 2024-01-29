@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 08:31:15 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/26 18:50:16 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/29 11:31:59 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	init_pipex_standard(int argc, char **argv, char **env, t_pipex *pipex)
 	pipex->total_cmd = argc - 3;
 	pipex->infile_name = argv[1];
 	pipex->outfile_name = argv[argc - 1];
+	pipex->recup = open("tmp_for_pipex_build_id_8327508157271", O_CREAT | \
+		O_RDWR | O_TRUNC, 0644);
 	pipex->fd_infile = open(pipex->infile_name, O_RDONLY, 0644);
 	pipex->fd_outfile = open(pipex->outfile_name, O_CREAT | \
 		O_RDWR | O_TRUNC, 0644);
@@ -79,6 +81,8 @@ void	init_pipex_here_doc(int argc, char **argv, char **env, t_pipex *pipex)
 	pipex->total_cmd = argc - 4;
 	pipex->infile_name = argv[1];
 	pipex->outfile_name = argv[argc - 1];
+	pipex->recup = open("tmp_for_pipex_build_id_8327508157271", O_CREAT | \
+		O_RDWR | O_TRUNC, 0644);
 	pipex->fd_outfile = open(pipex->outfile_name, O_CREAT | \
 	O_RDWR | O_APPEND, 0644);
 	if (pipex->fd_outfile == -1)
@@ -105,9 +109,6 @@ void	exec_child(int *fd, t_pipex *pipex, int index_cmd, int total_cmd)
 	t_list	*cmd;
 
 	cmd = lst_index(pipex->list_cmd, index_cmd);
-	cmd->path_cmd = check_cmd(cmd->cmd, pipex);
-	if (!cmd->path_cmd)
-		close_pipex(fd, pipex);
 	result = execve(cmd->path_cmd, cmd->spliting_cmd_args, pipex->env);
 	if (result == -1)
 		close_pipex(fd, pipex);
@@ -121,12 +122,14 @@ int	close_pipex(int *fd, t_pipex *pipex)
 	if (pipex->error_init == 0)
 		close(fd[1]);
 	if (ft_strncmp(pipex->infile_name, "here_doc", 8) \
-		&& pipex->fd_infile != -1)
+		&& pipex->fd_infile > 0)
 		close(pipex->fd_infile);
 	if (pipex->pid)
 		free(pipex->pid);
 	if (pipex->fd_outfile != -1)
 		close(pipex->fd_outfile);
+	close(pipex->recup);
+	unlink("tmp_for_pipex_build_id_8327508157271");
 	lstclear(pipex->list_cmd);
 	exit(0);
 	return (0);

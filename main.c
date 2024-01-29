@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 08:35:57 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/26 17:09:39 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/29 11:34:27 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,19 @@ int	main(int argc, char **argv, char **env)
 			close_pipex(fd, &pipex);
 	index_cmd = 0;
 	while (index_cmd < pipex.total_cmd)
-	{
+	{		
+		lst_index(pipex.list_cmd, index_cmd)->path_cmd = \
+			check_cmd(lst_index(pipex.list_cmd, index_cmd)->cmd, &pipex);
+		if (!lst_index(pipex.list_cmd, index_cmd)->path_cmd)
+		{
+			index_cmd++;
+			if (ft_strncmp(pipex.infile_name, "here_doc", 8) \
+				&& pipex.fd_infile != -1)
+			close(pipex.fd_infile);
+			dup2(pipex.recup, 0);
+			pipex.fd_infile = 0;
+			continue ;
+		}
 		if (pipe(fd) == -1)
 			return (close_pipex(fd, &pipex));
 		pipex.pid[index_cmd] = fork();
@@ -108,6 +120,11 @@ int	main(int argc, char **argv, char **env)
 	index_cmd = 0;
 	while (index_cmd < pipex.total_cmd)
 	{
+		if (!lst_index(pipex.list_cmd, index_cmd)->path_cmd)
+		{
+			index_cmd++;
+			continue ;
+		}
 		waitpid(pipex.pid[index_cmd], NULL, 0);
 		index_cmd++;	
 	}

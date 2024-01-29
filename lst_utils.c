@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 10:03:14 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/25 09:54:31 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/29 11:31:44 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ void	lstadd_back(t_list *new, t_list *list_cmd)
 {
 	t_list	*tmp;
 
-	if (list_cmd->cmd == NULL)
-	{
-		list_cmd = new;
-		return ;
-	}
 	tmp = list_cmd;
 	while (tmp->next != NULL)
 	{
