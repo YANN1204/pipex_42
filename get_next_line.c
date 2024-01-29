@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:28:51 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/24 16:56:03 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/29 13:50:29 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ char	*get_next_line(int fd, char *delimiteur)
 	stat = readfile(fd, stat);
 	line = putline(stat, line);
 	stat = putstat(stat);
-	if (!ft_strncmp(line, delimiteur, ft_strlen(delimiteur)))
+	if (ft_strlen(line) == ft_strlen(delimiteur) + 1 && \
+		!ft_strncmp(line, delimiteur, ft_strlen(delimiteur)))
 		free(stat);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 08:35:16 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/29 10:47:42 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/29 17:56:17 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,18 @@ void	lstadd_back(t_list *new, t_list *lst_cmd);
 void	lstclear(t_list *lst);
 t_list	*lst_index(t_list *lst, int index);
 
+char	**get_paths(char **env);
 char	**free_split(char **char_tab);
-char	*check_cmd(char *cmd, t_pipex *pipex);
+char	*check_cmd(char *cmd, char **path_split, t_pipex *pipex);
+t_list	*lst_new(int tmp, char **argv, t_pipex *pipex);
 void	init_pipex_standard(int argc, char **argv, char **env, t_pipex *pipex);
 void	init_pipex_here_doc(int argc, char **argv, char **env, t_pipex *pipex);
 void	exec_child(int *fd, t_pipex *pipex, int index_cmd, int total_cmd);
 int		close_pipex(int *fd, t_pipex *pipex);
 int		ft_pipe(int *fd, int index_cmd, int pid, t_pipex *pipex);
 int		ft_pipe_here_doc(char **argv, int *fd, t_pipex *pipex);
+int		ft_pipe_loop(int index_cmd, int *fd, t_pipex *pipex);
+void	ft_wait_loop(t_pipex *pipex);
+void	redirection_empty_fd(int index_cmd, char **path_split, t_pipex *pipex);
 
 #endif
