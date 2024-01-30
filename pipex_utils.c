@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 08:31:15 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/29 17:40:45 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/30 09:43:37 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_list	*lst_new(int tmp, char **argv, t_pipex *pipex)
 	return (new);
 }
 
-void	init_pipex_standard(int argc, char **argv, char **env, t_pipex *pipex)
+void	init_pipex_standard(int argc, char **argv, t_pipex *pipex)
 {
 	pipex->total_cmd = argc - 3;
 	pipex->infile_name = argv[1];
@@ -53,7 +53,7 @@ void	init_pipex_standard(int argc, char **argv, char **env, t_pipex *pipex)
 		pipex->error_init = 1;
 }
 
-void	init_pipex_here_doc(int argc, char **argv, char **env, t_pipex *pipex)
+void	init_pipex_here_doc(int argc, char **argv, t_pipex *pipex)
 {
 	pipex->total_cmd = argc - 4;
 	pipex->infile_name = argv[1];
@@ -67,7 +67,7 @@ void	init_pipex_here_doc(int argc, char **argv, char **env, t_pipex *pipex)
 		pipex->error_init = 1;
 }
 
-void	exec_child(int *fd, t_pipex *pipex, int index_cmd, int total_cmd)
+void	exec_child(int *fd, t_pipex *pipex, int index_cmd)
 {
 	int		result;
 	t_list	*cmd;

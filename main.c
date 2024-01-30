@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 08:35:57 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/29 17:55:29 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/30 09:43:19 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**free_split(char **char_tab)
 	return (NULL);
 }
 
-char	*check_cmd(char *cmd, char **path_split, t_pipex *pipex)
+char	*check_cmd(char *cmd, char **path_split)
 {
 	char	*path_str;
 	int		tmp;
@@ -80,9 +80,9 @@ void	init_pipex(int argc, char **argv, char **env, t_pipex *pipex)
 	pipex->env = env;
 	pipex->error_init = 0;
 	if (!ft_strncmp(argv[1], "here_doc", 8))
-		init_pipex_here_doc(argc, argv, env, pipex);
+		init_pipex_here_doc(argc, argv, pipex);
 	else
-		init_pipex_standard(argc, argv, env, pipex);
+		init_pipex_standard(argc, argv, pipex);
 	tmp = 0;
 	lst = lst_new(tmp, argv, pipex);
 	pipex->list_cmd = lst;

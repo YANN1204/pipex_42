@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 08:35:16 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/29 17:56:17 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/30 09:43:45 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ t_list	*lst_index(t_list *lst, int index);
 
 char	**get_paths(char **env);
 char	**free_split(char **char_tab);
-char	*check_cmd(char *cmd, char **path_split, t_pipex *pipex);
+char	*check_cmd(char *cmd, char **path_split);
 t_list	*lst_new(int tmp, char **argv, t_pipex *pipex);
-void	init_pipex_standard(int argc, char **argv, char **env, t_pipex *pipex);
-void	init_pipex_here_doc(int argc, char **argv, char **env, t_pipex *pipex);
-void	exec_child(int *fd, t_pipex *pipex, int index_cmd, int total_cmd);
+void	init_pipex_standard(int argc, char **argv, t_pipex *pipex);
+void	init_pipex_here_doc(int argc, char **argv, t_pipex *pipex);
+void	exec_child(int *fd, t_pipex *pipex, int index_cmd);
 int		close_pipex(int *fd, t_pipex *pipex);
 int		ft_pipe(int *fd, int index_cmd, int pid, t_pipex *pipex);
 int		ft_pipe_here_doc(char **argv, int *fd, t_pipex *pipex);

@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:23:38 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/29 17:55:22 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/30 09:44:00 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_pipe(int *fd, int index_cmd, int pid, t_pipex *pipex)
 			dup2(fd[1], 1);
 			close(pipex->fd_outfile);
 		}
-		exec_child(fd, pipex, index_cmd, pipex->total_cmd);
+		exec_child(fd, pipex, index_cmd);
 	}
 	else
 	{
@@ -95,7 +95,7 @@ int	ft_pipe_loop(int index_cmd, int *fd, t_pipex *pipex)
 	{	
 		path_split = get_paths(pipex->env);
 		elem = lst_index(pipex->list_cmd, index_cmd);
-		path_cmd = check_cmd(elem->cmd, path_split, pipex);
+		path_cmd = check_cmd(elem->cmd, path_split);
 		if (!path_cmd)
 		{
 			redirection_empty_fd(index_cmd, path_split, pipex);
