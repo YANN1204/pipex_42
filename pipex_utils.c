@@ -44,11 +44,10 @@ void	init_pipex_standard(int argc, char **argv, t_pipex *pipex)
 	pipex->total_cmd = argc - 3;
 	pipex->infile_name = argv[1];
 	pipex->outfile_name = argv[argc - 1];
-	pipex->recup = open("tmp_for_pipex_build_id_8327508157271", O_CREAT | \
-		O_RDWR | O_TRUNC, 0644);
 	pipex->fd_infile = open(pipex->infile_name, O_RDONLY, 0644);
 	pipex->fd_outfile = open(pipex->outfile_name, O_CREAT | \
 		O_RDWR | O_TRUNC, 0644);
+	pipex->recup = -1;
 	if (pipex->fd_infile == -1 || pipex->fd_outfile == -1)
 		pipex->error_init = 1;
 }
@@ -58,11 +57,10 @@ void	init_pipex_here_doc(int argc, char **argv, t_pipex *pipex)
 	pipex->total_cmd = argc - 4;
 	pipex->infile_name = argv[1];
 	pipex->outfile_name = argv[argc - 1];
-	pipex->recup = open("tmp_for_pipex_build_id_8327508157271", O_CREAT | \
-		O_RDWR | O_TRUNC, 0644);
 	pipex->fd_infile = -1;
 	pipex->fd_outfile = open(pipex->outfile_name, O_CREAT | \
 	O_RDWR | O_APPEND, 0644);
+	pipex->recup = -1;
 	if (pipex->fd_outfile == -1)
 		pipex->error_init = 1;
 }
@@ -95,7 +93,8 @@ int	close_pipex(int *fd, t_pipex *pipex)
 		free(pipex->pid);
 	if (pipex->fd_outfile != -1)
 		close(pipex->fd_outfile);
-	close(pipex->recup);
+	if (pipex->recup != -1)
+		close(pipex->recup);
 	unlink("tmp_for_pipex_build_id_8327508157271");
 	lstclear(pipex->list_cmd);
 	exit(0);

@@ -80,7 +80,8 @@ int	ft_pipe(int *fd, int index_cmd, int pid, t_pipex *pipex)
 		dup2(fd[0], 0);
 		close(fd[1]);
 		close(fd[0]);
-		close(pipex->recup);
+		if (pipex->recup != -1)
+			close(pipex->recup);
 	}
 	return (0);
 }

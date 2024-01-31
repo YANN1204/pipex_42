@@ -17,6 +17,8 @@ void	redirection_empty_fd(int index_cmd, char **path_split, t_pipex *pipex)
 	if (ft_strncmp(pipex->infile_name, "here_doc", 8) \
 		&& pipex->fd_infile != -1)
 		close(pipex->fd_infile);
+	pipex->recup = open("tmp_for_pipex_build_id_8327508157271", O_CREAT | \
+		O_RDWR | O_TRUNC, 0644);
 	dup2(pipex->recup, 0);
 	pipex->fd_infile = -1;
 	if (!lst_index(pipex->list_cmd, index_cmd)->cmd)
