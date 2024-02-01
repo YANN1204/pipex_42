@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 08:31:15 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/31 12:43:38 by yrio             ###   ########.fr       */
+/*   Updated: 2024/02/01 11:39:35 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	init_pipex_standard(int argc, char **argv, t_pipex *pipex)
 	pipex->fd_infile = open(pipex->infile_name, O_RDONLY, 0644);
 	pipex->fd_outfile = open(pipex->outfile_name, O_CREAT | \
 		O_RDWR | O_TRUNC, 0644);
+	pipex->recup = -1;
 	if (pipex->fd_infile == -1 || pipex->fd_outfile == -1)
 		pipex->error_init = 1;
 }
@@ -61,6 +62,7 @@ void	init_pipex_here_doc(int argc, char **argv, t_pipex *pipex)
 	pipex->fd_infile = -1;
 	pipex->fd_outfile = open(pipex->outfile_name, O_CREAT | \
 	O_RDWR | O_APPEND, 0644);
+	pipex->recup = -1;
 	if (pipex->fd_outfile == -1)
 		pipex->error_init = 1;
 }

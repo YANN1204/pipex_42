@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:23:38 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/31 14:02:19 by yrio             ###   ########.fr       */
+/*   Updated: 2024/02/01 11:38:49 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	ft_pipe(int *fd, int index_cmd, int pid, t_pipex *pipex)
 		dup2(fd[0], 0);
 		close(fd[1]);
 		close(fd[0]);
+		if (pipex->recup != -1)
+			close(pipex->recup);
 	}
 	return (0);
 }
