@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 08:35:16 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/30 09:43:45 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/31 15:28:34 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	lstadd_back(t_list *new, t_list *lst_cmd);
 void	lstclear(t_list *lst);
 t_list	*lst_index(t_list *lst, int index);
 
-char	**get_paths(char **env);
+char	**get_paths(char **env, t_pipex *pipex);
 char	**free_split(char **char_tab);
 char	*check_cmd(char *cmd, char **path_split);
 t_list	*lst_new(int tmp, char **argv, t_pipex *pipex);
@@ -86,5 +86,7 @@ int		ft_pipe_here_doc(char **argv, int *fd, t_pipex *pipex);
 int		ft_pipe_loop(int index_cmd, int *fd, t_pipex *pipex);
 void	ft_wait_loop(t_pipex *pipex);
 void	redirection_empty_fd(int index_cmd, char **path_split, t_pipex *pipex);
+int		ft_strcmp(const char *s1, const char *s2);
+char	**splitting_path(char *path, char **path_split, t_pipex *pipex);
 
 #endif

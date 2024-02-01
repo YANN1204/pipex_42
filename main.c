@@ -6,27 +6,36 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 08:35:57 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/30 09:43:19 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/31 15:21:44 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**get_paths(char **env)
+char	**get_paths(char **env, t_pipex *pipex)
 {
 	char	**path_split;
 	char	*path;
 	int		tmp;
+	int		error_fd[2];
 
 	tmp = 0;
 	path = NULL;
+	path_split = NULL;
 	while (env[tmp])
 	{
 		if (!ft_strncmp(env[tmp], "PATH=", 5))
+		{
 			path = ft_substr(env[tmp], 5, ft_strlen(env[tmp]) - 5);
+			if (!path)
+			{
+				pipex->error_init = 1;
+				close_pipex(error_fd, pipex);
+			}
+		}
 		tmp++;
 	}
-	path_split = ft_split(path, ':');
+	path_split = splitting_path(path, path_split, pipex);
 	free(path);
 	return (path_split);
 }
@@ -79,7 +88,7 @@ void	init_pipex(int argc, char **argv, char **env, t_pipex *pipex)
 
 	pipex->env = env;
 	pipex->error_init = 0;
-	if (!ft_strncmp(argv[1], "here_doc", 8))
+	if (!ft_strcmp(argv[1], "here_doc"))
 		init_pipex_here_doc(argc, argv, pipex);
 	else
 		init_pipex_standard(argc, argv, pipex);
@@ -105,13 +114,13 @@ int	main(int argc, char **argv, char **env)
 	int		fd[2];
 	int		index_cmd;
 
-	if (argc < 5 || !env[0] || (ft_strncmp(argv[1], \
+	if (!env[0] || argc < 5 || (ft_strncmp(argv[1], \
 		"here_doc", ft_strlen("here_doc")) == 0 && argc < 6))
 		exit(0);
 	init_pipex(argc, argv, env, &pipex);
 	if (pipex.error_init == 1)
 		close_pipex(fd, &pipex);
-	if (!ft_strncmp(argv[1], "here_doc", 8))
+	if (!ft_strcmp(argv[1], "here_doc"))
 		ft_pipe_here_doc(argv, fd, &pipex);
 	else
 		if (dup2(pipex.fd_infile, 0) == -1)

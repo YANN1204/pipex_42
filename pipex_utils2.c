@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:23:38 by yrio              #+#    #+#             */
-/*   Updated: 2024/01/30 09:44:00 by yrio             ###   ########.fr       */
+/*   Updated: 2024/01/31 14:02:19 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	ft_pipe(int *fd, int index_cmd, int pid, t_pipex *pipex)
 		}
 		else
 		{
-			close(pipex->fd_infile);
+			if (pipex->fd_infile != -1)
+				close(pipex->fd_infile);
 			dup2(fd[1], 1);
 			close(pipex->fd_outfile);
 		}
@@ -80,7 +81,6 @@ int	ft_pipe(int *fd, int index_cmd, int pid, t_pipex *pipex)
 		dup2(fd[0], 0);
 		close(fd[1]);
 		close(fd[0]);
-		close(pipex->recup);
 	}
 	return (0);
 }
@@ -93,7 +93,7 @@ int	ft_pipe_loop(int index_cmd, int *fd, t_pipex *pipex)
 
 	while (index_cmd < pipex->total_cmd)
 	{	
-		path_split = get_paths(pipex->env);
+		path_split = get_paths(pipex->env, pipex);
 		elem = lst_index(pipex->list_cmd, index_cmd);
 		path_cmd = check_cmd(elem->cmd, path_split);
 		if (!path_cmd)
